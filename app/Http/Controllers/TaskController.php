@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use PhpParser\Node\Stmt\Return_;
 
 class TaskController extends Controller
@@ -24,7 +26,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function taskCreate()
     {
         //
     }
@@ -35,9 +37,11 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function taskStore(Request $request)
     {
-        //
+        $task = Task::create($request->all());
+
+        return Response::json($task);
     }
 
     /**
@@ -46,9 +50,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function taskShow($task_id)
     {
-        //
+        $task = Task::find($task_id);
+
+        return Response::json($task);
     }
 
     /**
@@ -57,7 +63,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function taskEdit($id)
     {
         //
     }
@@ -69,9 +75,16 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function taskUpdate(Request $request, $task_id)
     {
-        //
+        $task = Task::find($task_id);
+
+        $task->task = $request->task;
+        $task->description = $request->description;
+        $task->date = $request->date;
+
+        $task->save();
+        return Response::json($task);
     }
 
     /**
@@ -80,8 +93,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function taskDestroy($task_id)
     {
-        //
+        $task = Task::destroy($task_id);
+
+        return Response::json($task);
     }
 }
