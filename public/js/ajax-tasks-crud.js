@@ -44,6 +44,10 @@ $(document).ready(function(){
     //delete task and remove it from list
     $('.delete-task').click(function(){
         var task_id = $(this).val();
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }});
 
         $.ajax({
 
