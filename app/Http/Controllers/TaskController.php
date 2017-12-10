@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
 use PhpParser\Node\Stmt\Return_;
 
 class TaskController extends Controller
@@ -40,8 +41,16 @@ class TaskController extends Controller
     public function taskStore(Request $request)
     {
         $task = Task::create($request->all());
+//        $task = new Task();
+//        $task->task = $request->task;
+//        $task->description = $request->description;
+//        $task->date = $request->date;
+//        $task->done=0;
+//
+//
+//        $task->save();
 
-        return Response::json($task);
+        return Response()->json($task);
     }
 
     /**
@@ -54,7 +63,7 @@ class TaskController extends Controller
     {
         $task = Task::find($task_id);
 
-        return Response::json($task);
+        return Response()->json($task);
     }
 
     /**
@@ -82,9 +91,11 @@ class TaskController extends Controller
         $task->task = $request->task;
         $task->description = $request->description;
         $task->date = $request->date;
+        $task->done = Input::get('select-done');
 
         $task->save();
-        return Response::json($task);
+
+        return Response()->json($task);
     }
 
     /**
@@ -97,6 +108,6 @@ class TaskController extends Controller
     {
         $task = Task::destroy($task_id);
 
-        return Response::json($task);
+        return Response()->json($task);
     }
 }

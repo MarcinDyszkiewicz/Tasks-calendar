@@ -13,7 +13,11 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         {{--css styles--}}
-        <styles></styles>
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
 
     </head>
     <body>
@@ -35,23 +39,21 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                {{--<tbody id="tasks-list" name="tasks-list">--}}
-                {{--@foreach ($tasks as $task)--}}
-                    {{--<tr id="task{{$task->id}}">--}}
-                        {{--<td>{{$task->id}}</td>--}}
-                        {{--<td>{{$task->task}}</td>--}}
-                        {{--<td>{{$task->description}}</td>--}}
-                        {{--<td>{{$task->date}}</td>--}}
-                        {{--<td>--}}
-                            {{--<button class="btn btn-warning btn-xs btn-detail open-modal" value="{{$task->id}}">Edit</button>--}}
-                            {{--<button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$task->id}}">Delete</button>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
-                {{--@endforeach--}}
+                <tbody id="tasks-list" name="tasks-list">
+                @foreach ($tasks as $task)
+                    <tr id="task{{$task->id}}">
+                        <td>{{$task->id}}</td>
+                        <td>{{$task->task}}</td>
+                        <td>{{$task->description}}</td>
+                        <td>{{$task->date}}</td>
+                        <td>
+                            <button id="edit" class="btn btn-warning btn-xs btn-detail open-modal" value="{{$task->id}}">Edit</button>
+                            <button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$task->id}}">Delete</button>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
-
-
 
 
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,6 +78,22 @@
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="description" name="description" placeholder="Description" value="">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="date" class="col-sm-3 control-label">Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" id="date" name="date" placeholder="Date" value="">
+                                        </div>
+
+                                    <div id="done" class="form-group"  >
+                                            <label for="Select1" class="col-sm-3">To Do/Done</label>
+                                            <div class="col-sm-9">
+                                            <select name="select-done" class="form-control" id="todo">
+                                                <option value="0">To Do</option>
+                                                <option value="1">Done</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -88,10 +106,12 @@
             </div>
         </div>
     </div>
+
     <meta name="_token" content="{!! csrf_token() !!}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script src="{{asset('js/ajax-crud.js')}}"></script>
+    {{--<script src="{{asset('js/ajax-tasks-crud.js')}}"></script>--}}
+    <script src="js/ajax-tasks-crud.js"></script>
     </body>
 </html>

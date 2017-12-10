@@ -4,11 +4,12 @@
 
 $(document).ready(function(){
 
-    var url = "/ajax-crud/public/tasks";
+    var url = "/tasks";
 
     //display modal form for task editing
     $('.open-modal').click(function(){
         var task_id = $(this).val();
+
 
         $.get(url + '/' + task_id, function (data) {
             //success data
@@ -16,17 +17,28 @@ $(document).ready(function(){
             $('#task_id').val(data.id);
             $('#task').val(data.task);
             $('#description').val(data.description);
+            $('#date').val(data.date);
+            $('#done').val(data.done);
             $('#btn-save').val("update");
 
             $('#myModal').modal('show');
+
         })
     });
 
     //display modal form for creating new task
     $('#btn-add').click(function(){
+
         $('#btn-save').val("add");
         $('#frmTasks').trigger("reset");
         $('#myModal').modal('show');
+        $('#done').addClass('hidden');
+    });
+
+
+    $('.btn-detail').click(function(){
+        // alert( "Handler for .click() called.");
+        $('#done').removeClass('hidden');
     });
 
     //delete task and remove it from list
@@ -61,6 +73,8 @@ $(document).ready(function(){
         var formData = {
             task: $('#task').val(),
             description: $('#description').val(),
+            date: $('#date').val(),
+            done: $('#done').val(),
         }
 
         //used to determine the http verb to use [add=POST], [update=PUT]
@@ -86,7 +100,7 @@ $(document).ready(function(){
             success: function (data) {
                 console.log(data);
 
-                var task = '<tr id="task' + data.id + '"><td>' + data.id + '</td><td>' + data.task + '</td><td>' + data.description + '</td><td>' + data.created_at + '</td>';
+                var task = '<tr id="task' + data.id + '"><td>' + data.id + '</td><td>' + data.task + '</td><td>' + data.description + '</td><td>' + data.date + '</td><td>' + data.done + '</td>';
                 task += '<td><button class="btn btn-warning btn-xs btn-detail open-modal" value="' + data.id + '">Edit</button>';
                 task += '<button class="btn btn-danger btn-xs btn-delete delete-task" value="' + data.id + '">Delete</button></td></tr>';
 
@@ -95,11 +109,16 @@ $(document).ready(function(){
                 }else{ //if user updated an existing record
 
                     $("#task" + task_id).replaceWith( task );
+
+
+
+
                 }
 
                 $('#frmTasks').trigger("reset");
 
                 $('#myModal').modal('hide')
+
             },
             error: function (data) {
                 console.log('Error:', data);

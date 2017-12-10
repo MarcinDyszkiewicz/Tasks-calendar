@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'TaskController@index')->name('index');
 
 //task crud
-Route::post('/tasks', 'TaskController@taskStore')->name('taskStore');
+Route::post('/tasks', 'TaskController@taskStore');
 
-Route::get('/tasks/{task_id}', 'TaskController@taskShow')->name('taskShow');
+Route::get('/tasks/{task_id}', 'TaskController@taskShow');
 
 Route::put('tasks/{task_id}', 'TaskController@taskUpdate');
 
